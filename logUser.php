@@ -45,6 +45,7 @@ try {
 </form>';
 
         echo "Bonjour, " . $_SESSION['user']['nomUser'] . " " . $_SESSION['user']['prenomUser'] . ". Vous êtes connecté.";
+        include 'adminBoard.php';
     }
 
     ?>
@@ -73,7 +74,7 @@ try {
                     "adresseMailUser" => $results[0]['adresseMailUser']
                 ];
                 header("Location: logUser.php");
-                include 'adminBoard.php';
+                
             }
         } else {
             echo "mot de passe incorrect";
