@@ -30,8 +30,7 @@ $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
         <input type="text" name="insertAdresseMail" value="">
     </form> -->
     <hr>
-</body>
-</html>
+
 
 <?php 
 foreach ($resultsAll as $key => $value) {
@@ -44,9 +43,28 @@ foreach ($resultsAll as $key => $value) {
 echo "<br>";
 echo "<br>";
 }
+?>
+
+<hr>
+
+<?php
+
+if (isset($_GET['id'])){
+$id = $_GET['id'];
+$sqlId = "SELECT idUser,nomUser,prenomUser,ageUser,adresseMailUser FROM 'users' WHERE 'idUser' = '$id'";
+$stmtId = $pdo->prepare($sqlId);
+$stmtId->execute();
+$resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
 
 
+var_dump($resultsId);
 
 
+}
 
 ?>
+
+
+
+</body>
+</html>
