@@ -1,70 +1,81 @@
 <?php
- 
+
 $sqlAll = "SELECT idUser,nomUser,prenomUser,ageUser,adresseMailUser FROM `users`";
 $stmtAll = $pdo->prepare($sqlAll);
 $stmtAll->execute();
 $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
 
-
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <body>
-    <!-- <form>
-        <value>nom</value>
-        <input type="text" name="insertNom" value="">
-        <br>
-        <value>prenom</value>
-        <input type="text" name="insertPrenom" value="">
-        <br>
-        <value>age</value>
-        <input type="text" name="insertAge" value="">
-        <br>
-        <value>adresse mail</value>
-        <input type="text" name="insertAdresseMail" value="">
-    </form> -->
+
     <hr>
 
-
-<?php 
-foreach ($resultsAll as $key => $value) {
-    $idModifier = $value['idUser'];
-    foreach ($value as $key => $value2) {
-        echo $key . " : " . $value2;
+    <?php
+    foreach ($resultsAll as $key => $value) {
+        $idModifier = $value['idUser'];
+        foreach ($value as $key => $value2) {
+            echo $key . " : " . $value2;
+            echo "<br>";
+        }
+        echo '<a href="?id=' . $idModifier . '">Modifier</a>';
+        echo "<br>";
         echo "<br>";
     }
-    echo '<a href="?id=' . $idModifier . '">Modifier</a>';
-echo "<br>";
-echo "<br>";
-}
-?>
+    ?>
 
-<hr>
+    <hr>
 
-<?php
+    <?php
 
-if (isset($_GET['id'])){
-$id = $_GET['id'];
-$sqlId = "SELECT idUser,nomUser,prenomUser,ageUser,adresseMailUser FROM 'users' WHERE 'idUser' = '$id'";
-$stmtId = $pdo->prepare($sqlId);
-$stmtId->execute();
-$resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
+    if (isset($_GET['id'])) {
+        $id = $_GET['id'];
+        $sqlId = "SELECT * FROM `users` WHERE `idUser` = '$id'";
+        $stmtId = $pdo->prepare($sqlId);
+        $stmtId->execute();
+        $resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
 
+        echo ' <form method="POST">
+        <input type="hidden" name="idUpdate" value="' . $resultsId[0]['idUser'] . '">
+        <br>
+        <label>nom</label>
+        <input type="text" name="updateNom" value="' . $resultsId[0]['nomUser'] . '">
+        <br>
+        <label>prenom</label>
+        <input type="text" name="updatePrenom" value="' . $resultsId[0]['prenomUser'] . '">
+        <br>
+        <label>age</label>
+        <input type="text" name="updateAge" value="' . $resultsId[0]['ageUser'] . '">
+        <br>
+        <label>adresse mail</label>
+        <input type="text" name="updateAdresseMail" value="' . $resultsId[0]['adresseMailUser'] . '">
+        <br>
+        <input type="submit" name="submitUpdate" value="Mettre à jour les données">
+    </form>';
+    }
 
-var_dump($resultsId);
+    if (isset($_POST['submitUpdate'])) {
 
+        $idUpdate = $_POST['idUpdate'];
+        $nom = $_POST['updateNom'];
+        $prenom = $_POST['updatePrenom'];
+        $age = $_POST['updateAge'];
+        $adresseMail = $_POST['updateAdresseMail'];
 
-}
+        $sqlUpdate = "UPDATE `users` SET `nomUser`='$nom',`prenomUser`='$prenom',`ageUser`='$age',`adresseMailUser`='$adresseMail' WHERE idUser='$idUpdate'";
+        $stmtUpdate = $pdo->prepare($sqlUpdate);
+        $stmtUpdate->execute();
 
-?>
-
-
-
+        header("Location: logUser.php");
+    }
+    ?>
 </body>
 </html>
