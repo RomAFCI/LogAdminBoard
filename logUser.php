@@ -60,7 +60,7 @@ try {
         $stmt->execute();
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-      
+
 
         if (isset($results[0]["passwordUser"])) {
 
@@ -73,9 +73,9 @@ try {
                     "adresseMailUser" => $results[0]['adresseMailUser']
                 ];
                 header("Location: logUser.php");
+                include 'adminBoard.php';
             }
-        } 
-        else {
+        } else {
             echo "mot de passe incorrect";
         }
     }
