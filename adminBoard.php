@@ -58,6 +58,9 @@ $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
         <label>adresse mail</label>
         <input type="text" name="updateAdresseMail" value="' . htmlspecialchars($resultsId[0]['adresseMailUser']) . '">
         <br>
+        <label>mot de passe</label>
+        <input type="text" name="updatePassword" value="' . htmlspecialchars($resultsId[0]['passwordUser']) . '">
+        <br>
         <input type="submit" name="submitUpdate" value="Mettre à jour les données">
     </form>';
     }
