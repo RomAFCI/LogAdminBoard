@@ -65,13 +65,13 @@ try {
 
         if (isset($results[0]["passwordUser"])) {
 
-            if ($password == $results[0]['passwordUser']) {
+            if (password_verify($password, $results[0]['passwordUser'])) {
                 $_SESSION['user'] = [
-                    "idUser" => $results[0]['idUser'],
-                    "nomUser" => $results[0]['nomUser'],
-                    "prenomUser" => $results[0]['prenomUser'],
-                    "ageUser" => $results[0]['ageUser'],
-                    "adresseMailUser" => $results[0]['adresseMailUser']
+                    "idUser" => htmlspecialchars($results[0]['idUser']),
+                    "nomUser" => htmlspecialchars($results[0]['nomUser']),
+                    "prenomUser" => htmlspecialchars($results[0]['prenomUser']),
+                    "ageUser" => htmlspecialchars($results[0]['ageUser']),
+                    "adresseMailUser" => htmlspecialchars($results[0]['adresseMailUser'])
                 ];
                 header("Location: logUser.php");
             }
@@ -114,8 +114,12 @@ try {
         $mailCreate = $_POST['mailCreate'];
         $passwordCreate = $_POST['passwordCreate'];
 
+        $hashedPassword = password_hash($passwordCreate, PASSWORD_DEFAULT);
+
         $sqlCreate = "INSERT INTO `users`(`nomUser`, `prenomUser`, `ageUser`, `adresseMailUser`, `passwordUser`) 
-    VALUES ('$nomCreate','$prenomCreate','$ageCreate','$mailCreate','$passwordCreate')";
+        VALUES ('$nomCreate','$prenomCreate','$ageCreate','$mailCreate','$hashedPassword')";
+        $stmtCreate = $pdo->prepare($sqlCreate);
+        $stmtCreate->execute();
     }
 
     ?>
