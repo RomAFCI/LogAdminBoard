@@ -72,8 +72,11 @@ $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
         $prenom = $_POST['updatePrenom'];
         $age = $_POST['updateAge'];
         $adresseMail = $_POST['updateAdresseMail'];
+        $password = $_POST['updatePassword'];
 
-        $sqlUpdate = "UPDATE `users` SET `nomUser`='$nom',`prenomUser`='$prenom',`ageUser`='$age',`adresseMailUser`='$adresseMail' WHERE idUser='$idUpdate'";
+        $hashPassword = password_hash('$password', PASSWORD_DEFAULT);
+
+        $sqlUpdate = "UPDATE `users` SET `nomUser`='$nom',`prenomUser`='$prenom',`ageUser`='$age',`adresseMailUser`='$adresseMail',`passwordUser`='$hashPassword' WHERE idUser='$idUpdate'";
         $stmtUpdate = $pdo->prepare($sqlUpdate);
         $stmtUpdate->execute();
 
