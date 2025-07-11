@@ -23,7 +23,7 @@ $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
     foreach ($resultsAll as $key => $value) {
         $idModifier = $value['idUser'];
         foreach ($value as $key => $value2) {
-            echo $key . " : " . $value2;
+            echo htmlspecialchars($key) . " : " . htmlspecialchars($value2);
             echo "<br>";
         }
         echo '<a href="?id=' . $idModifier . '">Modifier</a>';
@@ -44,19 +44,19 @@ $resultsAll = $stmtAll->fetchAll(PDO::FETCH_ASSOC);
         $resultsId = $stmtId->fetchAll(PDO::FETCH_ASSOC);
 
         echo ' <form method="POST">
-        <input type="hidden" name="idUpdate" value="' . $resultsId[0]['idUser'] . '">
+        <input type="hidden" name="idUpdate" value="' . htmlspecialchars($resultsId[0]['idUser']) . '">
         <br>
         <label>nom</label>
-        <input type="text" name="updateNom" value="' . $resultsId[0]['nomUser'] . '">
+        <input type="text" name="updateNom" value="' . htmlspecialchars($resultsId[0]['nomUser']) . '">
         <br>
         <label>prenom</label>
-        <input type="text" name="updatePrenom" value="' . $resultsId[0]['prenomUser'] . '">
+        <input type="text" name="updatePrenom" value="' . htmlspecialchars($resultsId[0]['prenomUser']) . '">
         <br>
         <label>age</label>
-        <input type="text" name="updateAge" value="' . $resultsId[0]['ageUser'] . '">
+        <input type="text" name="updateAge" value="' . htmlspecialchars($resultsId[0]['ageUser']) . '">
         <br>
         <label>adresse mail</label>
-        <input type="text" name="updateAdresseMail" value="' . $resultsId[0]['adresseMailUser'] . '">
+        <input type="text" name="updateAdresseMail" value="' . htmlspecialchars($resultsId[0]['adresseMailUser']) . '">
         <br>
         <input type="submit" name="submitUpdate" value="Mettre à jour les données">
     </form>';

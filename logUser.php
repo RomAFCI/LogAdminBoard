@@ -37,14 +37,14 @@ try {
         <label>Password</label>
         <input type="password" name="password">
         <input type="submit" name="submitConnection" value="Se connecter">
-
-    </form>';
+    </form>
+    <a href="?page=createAccount"><p>Créez mon compte</p></a>';
     } else {
         echo '<form method="POST">
     <input type="submit" name="deconnexion" value="Deconnexion">
 </form>';
 
-        echo "Bonjour, " . $_SESSION['user']['nomUser'] . " " . $_SESSION['user']['prenomUser'] . ". Vous êtes connecté.";
+        echo "Bonjour, " . htmlspecialchars($_SESSION['user']['nomUser']) . " " . htmlspecialchars($_SESSION['user']['prenomUser']) . ". Vous êtes connecté.";
         include 'adminBoard.php';
     }
 
@@ -74,10 +74,9 @@ try {
                     "adresseMailUser" => $results[0]['adresseMailUser']
                 ];
                 header("Location: logUser.php");
-                
             }
         } else {
-            echo "mot de passe incorrect";
+            echo "mail ou mot de passe incorrect";
         }
     }
 
@@ -85,6 +84,40 @@ try {
         session_destroy();
         header("Location: logUser.php");
     }
+
+
+    if (isset($_GET['page']) && $_GET['page'] == 'createAccount') {
+        echo '<form method="POST">
+    <label>Nom</label>
+    <input type="text" name="nomCreate" value="">
+    <br>
+    <label>Prenom</label>
+    <input type="text" name="prenomCreate" value="">
+    <br>
+    <label>Age</label>
+    <input type="text" name="ageCreate" value="">
+    <br>
+    <label>Mail</label>
+    <input type="text" name="mailCreate" value="">
+    <br>
+    <label>Password</label>
+    <input type="password" name="passwordCreate" value="">
+    <br>
+    <input type="submit" name="submitCreate" value="Créez un compte">
+</form>';
+    }
+
+    if (isset($_POST['submitCreate'])) {
+        $nomCreate = $_POST['nomCreate'];
+        $prenomCreate = $_POST['prenomCreate'];
+        $ageCreate = $_POST['ageCreate'];
+        $mailCreate = $_POST['mailCreate'];
+        $passwordCreate = $_POST['passwordCreate'];
+
+        $sqlCreate = "INSERT INTO `users`(`nomUser`, `prenomUser`, `ageUser`, `adresseMailUser`, `passwordUser`) 
+    VALUES ('$nomCreate','$prenomCreate','$ageCreate','$mailCreate','$passwordCreate')";
+    }
+
     ?>
 
 </body>
