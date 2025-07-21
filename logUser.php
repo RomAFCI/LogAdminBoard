@@ -107,6 +107,54 @@ try {
 </form>';
     }
 
+    // METHODE SIMPLE SANS SECURITE EN STMT PREPARE OU EXECUTE
+
+    // if (isset($_POST['submitCreate'])) {
+    //     $nomCreate = $_POST['nomCreate'];
+    //     $prenomCreate = $_POST['prenomCreate'];
+    //     $ageCreate = $_POST['ageCreate'];
+    //     $mailCreate = $_POST['mailCreate'];
+    //     $passwordCreate = $_POST['passwordCreate'];
+
+    //     $hashedPassword = password_hash($passwordCreate, PASSWORD_DEFAULT);
+
+    //     $sqlCreate = "INSERT INTO `users`(`nomUser`, `prenomUser`, `ageUser`, `adresseMailUser`, `passwordUser`) 
+    //     VALUES ('$nomCreate','$prenomCreate','$ageCreate','$mailCreate','$hashedPassword')";
+    //     $stmtCreate = $pdo->prepare($sqlCreate);
+
+
+
+    //     $stmtCreate->execute();
+    // }
+
+    // METHODE UNE POUR INSERER GUILLEMET ' DANS BDD EN CHAINE DE CARACTERE, PROTEGE AUSSI CONTRE INJECTION SQL ETC. 
+
+    // if (isset($_POST['submitCreate'])) {
+    //     $nomCreate = $_POST['nomCreate'];
+    //     $prenomCreate = $_POST['prenomCreate'];
+    //     $ageCreate = $_POST['ageCreate'];
+    //     $mailCreate = $_POST['mailCreate'];
+    //     $passwordCreate = $_POST['passwordCreate'];
+
+    //     $hashedPassword = password_hash($passwordCreate, PASSWORD_DEFAULT);
+
+    //     $sqlCreate = "INSERT INTO `users`(`nomUser`, `prenomUser`, `ageUser`, `adresseMailUser`, `passwordUser`) 
+    //     VALUES (:nomCreate,:prenomCreate,:ageCreate,:mailCreate,:hashedPassword)";
+    //     $stmtCreate = $pdo->prepare($sqlCreate);
+
+    //     $stmtCreate->bindParam(':nomCreate', $nomCreate);
+    //     $stmtCreate->bindParam(':prenomCreate', $prenomCreate);
+    //     $stmtCreate->bindParam(':ageCreate', $ageCreate);
+    //     $stmtCreate->bindParam(':mailCreate', $mailCreate);
+    //     $stmtCreate->bindParam(':hashedPassword', $hashedPassword);
+
+    //     $stmtCreate->execute();
+    // }
+
+
+
+    // METHODE DEUX
+
     if (isset($_POST['submitCreate'])) {
         $nomCreate = $_POST['nomCreate'];
         $prenomCreate = $_POST['prenomCreate'];
@@ -117,11 +165,13 @@ try {
         $hashedPassword = password_hash($passwordCreate, PASSWORD_DEFAULT);
 
         $sqlCreate = "INSERT INTO `users`(`nomUser`, `prenomUser`, `ageUser`, `adresseMailUser`, `passwordUser`) 
-        VALUES ('$nomCreate','$prenomCreate','$ageCreate','$mailCreate','$hashedPassword')";
+            VALUES (?,?,?,?,?)";
         $stmtCreate = $pdo->prepare($sqlCreate);
-        $stmtCreate->execute();
+
+        $stmtCreate->execute([$nomCreate, $prenomCreate, $ageCreate, $mailCreate, $hashedPassword]);
     }
 
+    // METHODE ESSAYEE ET VALIDEE A METTRE EN COMMENTAIRES SELON CELUI CHOISIS POUR EVITER CONFLIT
     ?>
 
 </body>
